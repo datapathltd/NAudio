@@ -546,6 +546,7 @@ namespace NAudio.Wave
                 audioClient.Dispose();
                 audioClient = null;
                 renderClient = null;
+                frameEventWaitHandle?.Dispose();
             }
         }
 
