@@ -323,7 +323,10 @@ namespace NAudio.Wave
             {
                 if (playbackState == PlaybackState.Stopped)
                 {
-                    playThread = new Thread(PlayThread);
+                    playThread = new Thread(PlayThread)
+                    {
+                        IsBackground = true,
+                    };
                     playbackState = PlaybackState.Playing;
                     playThread.Start();
                 }
@@ -445,7 +448,7 @@ namespace NAudio.Wave
                     {
                         // Starting with Windows 7, Initialize can return AUDCLNT_E_BUFFER_SIZE_NOT_ALIGNED for a render device.
                         // We should to initialize again.
-                        if (ex.ErrorCode != ErrorCodes.AUDCLNT_E_BUFFER_SIZE_NOT_ALIGNED)
+                        if (ex.ErrorCode != AudioClientErrorCode.BufferSizeNotAligned)
                             throw;
 
                         // Calculate the new latency.
